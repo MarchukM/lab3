@@ -5,8 +5,8 @@ import com.labthree.util.ProcessIdSequence;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Process {
-    private final static int DEFAULT_MAX_NEEDED_SPACE = 50;
-    private final static int DEFAULT_MAX_LIFETIME = 10;
+    public final static int DEFAULT_MAX_NEEDED_SPACE = 50;
+    public final static int DEFAULT_MAX_LIFETIME = 10;
 
     private ProcessIdSequence sequence;
 

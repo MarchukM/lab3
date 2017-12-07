@@ -4,49 +4,27 @@ import com.labthree.algorythm.FirstFreeAlgorithm;
 import com.labthree.algorythm.MaxSizeAlgorithm;
 import com.labthree.algorythm.SuitableSizeAlgorithm;
 import com.labthree.model.Memory;
+import com.labthree.model.Process;
 import com.labthree.model.Report;
 
-import java.util.concurrent.*;
 
 public class Main {
-    public static void main(String[] args) {
-        ExecutorService executor = Executors.newFixedThreadPool(3);
-        CountDownLatch countDownLatch = new CountDownLatch(2);
+    public static void main(String[] args) throws Exception {
+        System.out.println("Размер памяти: " + Memory.DEFAULT_SIZE);
+        System.out.println("Кол-во итераций выделения памяти: " + Manager.NUMBER_OF_ALLOCATIONS);
+        System.out.println("Кол-во прогонов для усреднения: " + Manager.NUMBER_OF_ATTEMPTS);
+        System.out.println("Максимальный срок жизни процесса: " + Process.DEFAULT_MAX_LIFETIME);
+        System.out.println("Максимальный блок памяти запрашиваемый процессом: " + Process.DEFAULT_MAX_NEEDED_SPACE);
+        System.out.println();
 
-        Callable<Report> task1 = () -> {
-            Report r = new Manager().run(new FirstFreeAlgorithm(), new Memory());
-            System.out.println("first completed");
-            countDownLatch.countDown();
-            return r;
-        };
+        Report report1 = new Manager(new FirstFreeAlgorithm(), new Memory()).run();
+        Report report2 = new Manager(new SuitableSizeAlgorithm(), new Memory()).run();
+        Report report3 = new Manager(new MaxSizeAlgorithm(), new Memory()).run();
 
-        Callable<Report> task2 = () -> {
-            Report r = new Manager().run(new MaxSizeAlgorithm(), new Memory());
-            System.out.println("first completed");
-            countDownLatch.countDown();
-            return r;
-        };
-
-        Callable<Report> task3 = () -> {
-            Report r = new Manager().run(new SuitableSizeAlgorithm(), new Memory());
-            countDownLatch.countDown();
-            System.out.println("first completed");
-            return r;
-        };
-
-
-        Future<Report> result1 = executor.submit(task1);
-        Future<Report> result2 = executor.submit(task2);
-        Future<Report> result3 = executor.submit(task3);
-
-
-        try {
-            countDownLatch.await();
-            result2.get().displayReport();
-            result1.get().displayReport();
-            result3.get().displayReport();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        report1.displayReport();
+        System.out.println();
+        report2.displayReport();
+        System.out.println();
+        report3.displayReport();
     }
 }

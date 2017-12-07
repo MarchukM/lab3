@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class Memory {
 
-    private static final int DEFAULT_SIZE = 10;
+    public static final int DEFAULT_SIZE = 100;
 
     private int[] memoryArray;
     private List<Process> processes;

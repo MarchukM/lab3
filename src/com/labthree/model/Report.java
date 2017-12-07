@@ -7,15 +7,11 @@ import com.labthree.algorythm.SuitableSizeAlgorithm;
 
 public class Report {
     private String algorithmName;
-    private long refuseCounter = 0;
-
-    public void incremectRefuseCounter() {
-        refuseCounter++;
-    }
+    private long refuseNumber = 0;
 
     public void displayReport() {
         System.out.println("Алгоритм: " + algorithmName + ".");
-        System.out.println("Кол-во отказов: " + refuseCounter);
+        System.out.println("Кол-во отказов: " + refuseNumber);
     }
 
     public void setAlgorithm(AbstractAlgorithm algorithm) {
@@ -32,5 +28,13 @@ public class Report {
             return;
         }
         algorithmName = "не установлен";
+    }
+
+    public long getRefuseNumber() {
+        return refuseNumber;
+    }
+
+    public void setRefuseNumber(long refuseNumber) {
+        this.refuseNumber = refuseNumber;
     }
 }
